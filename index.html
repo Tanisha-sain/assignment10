@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+
+    <style>
+        body{
+            margin-left: auto;
+            margin-right: auto;
+
+            padding: 20px 30px;
+            
+            width: 500px;
+            height: max-content;
+        }
+        .header{
+            
+            border-bottom: 1px solid gray;
+            margin-bottom: 40px;
+        }
+        .header h1{
+            
+            font-size: 30px;
+            font-weight: 500;
+            
+        }
+
+        h2{
+            color: deeppink;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .main{
+           width: fit-content;
+           margin-left: auto;
+            margin-right: auto;
+
+        }
+        .todo{
+            display: flex;
+            align-items: center;
+            /* justify-content: center; */
+            margin-bottom: 10px;
+            gap: 5px;
+
+        }
+        .cut{
+            text-decoration: line-through;
+            text-decoration-color: deeppink;
+        }
+        input[type ="checkbox"]{
+            accent-color: deeppink;
+            border-color: rgb(231, 108, 124);
+        }
+        label{
+            color: rgb(231, 108, 124);
+            font-size: 20px;
+            
+        }
+        .grid{
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 200px 70px;
+            align-items: stretch;
+            column-gap: 20px;
+            row-gap: 10px;
+        }
+        #in{
+            border: 2px dashed rgb(250, 218, 223);
+            padding: 2px 10px;
+            font-size: 17px;
+            color: slategrey;
+            
+        }
+        #in::placeholder{
+            color: lightslategrey;
+        }
+        #in:hover{
+            border: 2px dashed rgb(238, 161, 171);
+
+        }
+        #in:focus{
+            outline: none;
+            border: 2px dashed deeppink;
+
+        }
+
+        button{
+            border: none;
+            color: deeppink;
+            background-color: rgb(250, 218, 223); 
+            font-size: 17px;
+        }
+        button:active{
+            background-color: rgb(255, 195, 204) ;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+    <div>
+        <header class="header">
+           <center><h1> ToDo </h1></center> 
+        </header>
+    </div>
+    <div class="main">
+        <h2>Things to do</h2>
+        
+        <div id="todo-container">  
+        </div>
+
+        <div class="grid">
+            <input id="in" type="text" placeholder="New ToDo">
+            <button onclick="addToDo()" class="lab" >Add</button>
+        </div>
+       
+    </div>
+    <script>
+        
+        todos = [];
+        const todoContainer = document.getElementById("todo-container");
+
+        function render(){
+            todoContainer.innerHTML = "";
+            todos.forEach(item => {
+                todoContainer.appendChild(getTodo(item));
+            })
+            // saveData();
+        }
+
+        function getTodo(item){
+            const container = document.createElement("div");
+            container.classList.add("todo");
+            const input = document.createElement("input");
+            input.id = item.id;
+            input.type = "checkbox";
+            input.checked = item.done;
+            input.addEventListener("change",()=>{
+                item.done = !item.done;
+                render();
+            })
+            container.appendChild(input);
+            const label = document.createElement("label");
+            label.htmlFor = item.id;
+            label.innerText = item.name;
+            if (item.done){
+                label.classList.add("cut");
+            }
+            container.appendChild(label);
+            // saveData();
+            return container;
+        }
+        
+       
+        function addToDo() { 
+
+            let id = (todos.length +1);
+            let inputElement = document.getElementById('in');
+            
+            if(inputElement.value){
+            todos.push({
+                name: inputElement.value,
+                done: false,
+                id: id,
+            });
+            inputElement.value = '';
+            // saveData();       
+            render();
+        }
+            
+
+        }
+        // function saveData(){
+        //     localStorage.setItem("data",document.querySelector("#todo-container").innerHTML);
+        // }
+        // function showTask(){
+        //     document.querySelector("#todo-container").innerHTML = localStorage.getItem("data");
+        // }
+        // showTask();
+        
+
+    </script>
+
+</body>
+
+</html>
